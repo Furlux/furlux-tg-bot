@@ -52,14 +52,14 @@ const sendWelcome = (ctx) => ctx.reply(WELCOME_MESSAGE, welcomeKeyboard);
 // inputs {order}, formats single order summary line, returns string
 const formatOrderLine = (order) => {
   const date = new Date(order.createdAt).toLocaleDateString('uk-UA');
-  const status = STATUS_LABELS[order.status] || order.status;
+  const status = STATUS_LABELS[order.orderStatus] || order.orderStatus;
   return `№${order.id} • ${date} • ${order.totalPrice} ${order.currency}\n${status}\nДеталі: /order_${order.id}`;
 };
 
 // inputs {order}, formats full order details, returns string
 const formatOrderDetails = (order) => {
   const date = new Date(order.createdAt).toLocaleString('uk-UA');
-  const status = STATUS_LABELS[order.status] || order.status;
+  const status = STATUS_LABELS[order.orderStatus] || order.orderStatus;
   const payment = order.paymentStatus
     ? PAYMENT_LABELS[order.paymentStatus] || order.paymentStatus
     : '—';
