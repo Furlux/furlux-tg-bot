@@ -10,12 +10,8 @@ if (!WEB_APP_URL) throw new Error('WEB_APP_URL is missing in .env');
 const bot = new Telegraf(BOT_TOKEN);
 
 const WELCOME_MESSAGE = [
-  'Вітаємо у Furlux 🕶️',
-  '',
-  'Магазин окулярів, де стиль зустрічається з характером.',
-  'Сонцезахисні, оптичні, трендові оправи — обирай ті, що бачать світ твоїми очима.',
-  '',
-  'Тисни кнопку нижче й поглянь на світ по-новому 👇',
+  'Вітаємо Вас у магазині сонцезахисних окулярів з досвідом роботи з 2000 року.',
+  'Ми працюємо напряму з фабриками та точно знаємо, які моделі реально продаються в різних форматах торгівлі.',
 ].join('\n');
 
 const SHORT_DESCRIPTION =
@@ -43,7 +39,7 @@ const PAYMENT_LABELS = {
 };
 
 const welcomeKeyboard = Markup.inlineKeyboard([
-  [Markup.button.webApp('Обрати окуляри', WEB_APP_URL)],
+  [Markup.button.webApp('Переглянути всю колекцію', WEB_APP_URL)],
 ]);
 
 // inputs {ctx}, sends welcome message with web_app inline button, returns Promise<Message>
