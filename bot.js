@@ -42,8 +42,16 @@ const welcomeKeyboard = Markup.inlineKeyboard([
   [Markup.button.webApp('Переглянути всю колекцію', WEB_APP_URL)],
 ]);
 
-// inputs {ctx}, sends welcome message with web_app inline button, returns Promise<Message>
-const sendWelcome = (ctx) => ctx.reply(WELCOME_MESSAGE, welcomeKeyboard);
+const ORDERS_BTN = '📦 Мої замовлення';
+
+const persistentKeyboard = Markup.keyboard([
+  [Markup.button.webApp('🛍 Магазин', WEB_APP_URL)],
+  [ORDERS_BTN],
+]).resize();
+
+// inputs {ctx}, sends welcome message with persistent reply keyboard + inline web_app button, returns Promise<Message>
+const sendWelcome = (ctx) =>
+  ctx.reply(WELCOME_MESSAGE, { ...welcomeKeyboard, ...persistentKeyboard });
 
 // inputs {order}, formats single order summary line, returns string
 const formatOrderLine = (order) => {
@@ -90,7 +98,8 @@ const formatOrderDetails = (order) => {
 
 bot.start(sendWelcome);
 
-bot.command('orders', async (ctx) => {
+// inputs {ctx}, fetches and replies with user orders, returns Promise<Message>
+const handleOrders = async (ctx) => {
   try {
     const orders = await fetchUserOrders(ctx.from.id);
     if (orders.length === 0) {
@@ -103,7 +112,10 @@ bot.command('orders', async (ctx) => {
     console.error('fetchUserOrders failed:', err);
     return ctx.reply('Не вдалося отримати замовлення. Спробуй пізніше 🙏');
   }
-});
+};
+
+bot.command('orders', handleOrders);
+bot.hears(ORDERS_BTN, handleOrders);
 
 bot.hears(/^\/order_(\d+)$/, async (ctx) => {
   const orderId = ctx.match[1];
