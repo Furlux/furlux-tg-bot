@@ -44,8 +44,13 @@ const welcomeKeyboard = Markup.inlineKeyboard([
 
 const ORDERS_BTN = '📦 Мої замовлення';
 
+// Reply-keyboard web_app buttons silently drop launch params on Telegram
+// Desktop (macOS at least), opening the Mini App as "Невідомий користувач".
+// The shop entry lives on the chat menu button (set via setChatMenuButton
+// below) and on the inline button inside the welcome message — both of
+// those *do* pass launch params correctly. So this reply keyboard now only
+// holds plain text actions.
 const persistentKeyboard = Markup.keyboard([
-  [Markup.button.webApp('🛍 Магазин', WEB_APP_URL)],
   [ORDERS_BTN],
 ]).resize();
 
