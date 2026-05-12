@@ -149,7 +149,7 @@ const setupBotProfile = async () => {
   await bot.telegram.setChatMenuButton({
     menuButton: {
       type: 'web_app',
-      text: '🕶️ Каталог Furlux',
+      text: 'Каталог',
       web_app: { url: WEB_APP_URL },
     },
   });
