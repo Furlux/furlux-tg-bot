@@ -159,9 +159,12 @@ const setupBotProfile = async () => {
     },
   });
   if (MANAGER_TG_CHAT_ID) {
-    await bot.telegram.sendMessage(MANAGER_TG_CHAT_ID, '🤖', {
+    const msg = await bot.telegram.sendMessage(MANAGER_TG_CHAT_ID, '​', {
       reply_markup: { remove_keyboard: true },
-    }).catch(() => {});
+    }).catch(() => null);
+    if (msg) {
+      await bot.telegram.deleteMessage(MANAGER_TG_CHAT_ID, msg.message_id).catch(() => {});
+    }
   }
 };
 
