@@ -9,6 +9,11 @@ if (!WEB_APP_URL) throw new Error('WEB_APP_URL is missing in .env');
 
 const bot = new Telegraf(BOT_TOKEN);
 
+bot.use((ctx, next) => {
+  if (ctx.chat?.type === 'private') return next();
+});
+
+
 const WELCOME_MESSAGE = [
   'Вітаємо Вас у магазині сонцезахисних окулярів з досвідом роботи з 2000 року.',
   'Ми працюємо напряму з фабриками та точно знаємо, які моделі реально продаються в різних форматах торгівлі.',
