@@ -2,7 +2,7 @@ require('dotenv').config();
 const { Telegraf, Markup } = require('telegraf');
 const { fetchUserOrders, fetchOrderById } = require('./strapi');
 
-const { BOT_TOKEN, WEB_APP_URL } = process.env;
+const { BOT_TOKEN, WEB_APP_URL, MANAGER_TG_CHAT_ID } = process.env;
 
 if (!BOT_TOKEN) throw new Error('BOT_TOKEN is missing in .env');
 if (!WEB_APP_URL) throw new Error('WEB_APP_URL is missing in .env');
@@ -158,6 +158,11 @@ const setupBotProfile = async () => {
       web_app: { url: WEB_APP_URL },
     },
   });
+  if (MANAGER_TG_CHAT_ID) {
+    await bot.telegram.sendMessage(MANAGER_TG_CHAT_ID, '🤖', {
+      reply_markup: { remove_keyboard: true },
+    }).catch(() => {});
+  }
 };
 
 setupBotProfile()
